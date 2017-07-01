@@ -1,6 +1,10 @@
 {
   "name": "shopping-cart",
   "version": "1.0.0",
+  "scripts": {
+    "test": "mocha test.js",
+    "test-kitten": "mocha -R nyan test.js"
+  },
   "dependencies": {
     "mocha": "^3.4.2",
     "mongod": "^2.0.0"
