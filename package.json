@@ -2,17 +2,12 @@
   "name": "shopping-cart",
   "version": "1.0.0",
   "scripts": {
-    "test": "mocha test.js",
-    "test-kitten": "mocha -R nyan test.js",
-    "watch": "gulp watch"
+    "test": "mocha test.js"
   },
   "dependencies": {
     "express": "^4.15.3",
-    "gulp": "^3.9.1",
-    "gulp-mocha": "^4.3.1",
     "http-status": "^1.0.1",
     "mocha": "^3.4.2",
-    "mongod": "^2.0.0",
     "mongoose": "^4.11.0",
     "superagent": "^3.5.2",
     "wagner-core": "^0.2.0"
