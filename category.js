@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var categorySchema = {
-  _id: {type: String},
+  _id: { type: String },
   parente: {
-    type: String,
+   type: String,
     ref: 'Category'
   },
   ancestors: [{
@@ -12,6 +12,6 @@ var categorySchema = {
   }]
 };
 
-module.exports  new mongoose.Schema(cateogrySchema);
+module.exports = new mongoose.Schema(categorySchema);
 module.exports.categorySchema = categorySchema;
 	
