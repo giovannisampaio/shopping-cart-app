@@ -1,25 +1,58 @@
 var mongoose = require('mongoose');
 var Category = require('./category');
-
-// this schema represents what will be displayed on a individual product view
-// product's name, list of pictures, price and category
+var fx = require('./fx');
 
 var productSchema = {
-	name: {type: String, required: true},
-	// Pictures must start with "http://"
-	pictures: [{ type: String, match: /^http:\/\//i }],
-	price: {
-	  amount: {type: Number, required: true }.
-	  // Only 3 supported currencies for now
-	  currency: {
-            type: String,
-            enum: ['USD', 'EUR', 'GBP'], 
-	    required: true
-          }
-	},
-	category: Category.categorySchema
+  name: { type: String, required: true },
+  // Pictures must start with "http://"
+  pictures: [{ type: String, match: /^http:\/\//i }],
+  price: {
+    amount: {
+      type: Number,
+      required: true,
+      set: function(v) {
+        this.internal.approximatePriceUSD =
+          v / (fx()[this.price.currency] || 1);
+        return v;
+      }
+    },
+    // Only 3 supported currencies for now
+    currency: {
+      type: String,
+      enum: ['USD', 'EUR', 'GBP'],
+      required: true,
+      set: function(v) {
+        this.internal.approximatePriceUSD =
+          this.price.amount / (fx()[v] || 1);
+        return v;
+      }
+    }
+  },
+  category: Category.categorySchema,
+  internal: {
+    approximatePriceUSD: Number
+  }
 };
 
-module.exports = new mongoose.Schema(productSchema);
-module.exports.productSchema = productSchema;
+var schema = new mongoose.Schema(productSchema);
 
+var currencySymbols = {
+  'USD': '$',
+  'EUR': '€',
+  'GBP': '£'
+};
+
+/*
+ * Human-readable string form of price - "$25" rather
+ * than "25 USD"
+ */
+schema.virtual('displayPrice').get(function() {
+  return currencySymbols[this.price.currency] +
+    '' + this.price.amount;
+});
+
+schema.set('toObject', { virtuals: true });
+schema.set('toJSON', { virtuals: true });
+
+module.exports = schema;
+module.exports.productSchema = productSchema;
