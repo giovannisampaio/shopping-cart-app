@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var categorySchema = {
   _id: { type: String },
-  parente: {
+  parent: {
    type: String,
     ref: 'Category'
   },
