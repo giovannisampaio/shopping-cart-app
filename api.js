@@ -36,9 +36,7 @@ module.exports = function(wagner) {
         json({ error: 'Not logged in' });
     }
 
-    req.user.populate(
-      { path: 'data.cart.product', model: 'Product' },
-      handleOne.bind(null, 'user', res));
+    req.user.populate({ path: 'data.cart.product', model: 'Product' }, handleOne.bind(null, 'user', res));
   });
 
   return api;

@@ -7,7 +7,7 @@ var wagner = require('wagner-core');
 var URL_ROOT = 'http://localhost:3000';
 var PRODUCT_ID = '000000000000000000000001';
 
-describe('Product API', function() {
+describe('User API', function() {
   var server;
   var Category;
   var Product;
